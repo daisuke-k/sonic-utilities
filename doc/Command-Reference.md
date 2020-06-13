@@ -2609,6 +2609,7 @@ This sub-section explains the following list of configuration on the interfaces.
 3) shutdown - to administratively shut down the interface
 4) speed - to set the interface speed
 5) startup - to bring up the administratively shutdown interface
+6) description - to set the interface description
 
 From 201904 release onwards, the “config interface” command syntax is changed and the format is as follows:
 
@@ -2856,6 +2857,22 @@ Dynamic breakout feature is yet to be supported in SONiC and hence uses cannot c
   ```
   admin@sonic:~$ sudo config interface Ethernet63 speed 40000
 
+  ```
+
+**config interface description <interface_name> <interface_description>
+
+This command is used for setting the interface description. Once if it is configured, use "show interfaces status <Interface_name>" to check.
+
+- Usage:
+
+  ```
+  config interface description <interface_name> <interface_description>
+  ```
+
+- Examples:
+
+  ```
+  config interface description Ethernet0 "To ARISTA01T0"
   ```
 
 **config interface transceiver lpmode**
