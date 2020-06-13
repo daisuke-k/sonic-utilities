@@ -1885,14 +1885,9 @@ def description(ctx, interface_name, interface_description):
 
     if interface_name.startswith("Ethernet"):
         if VLAN_SUB_INTERFACE_SEPARATOR in interface_name:
-            config_db.mod_entry("VLAN_SUB_INTERFACE", interface_name, {"description": interface_description})
+            pass
         else:
             config_db.mod_entry("PORT", interface_name, {"description": interface_description})
-    elif interface_name.startswith("PortChannel"):
-        if VLAN_SUB_INTERFACE_SEPARATOR in interface_name:
-            config_db.mod_entry("VLAN_SUB_INTERFACE", interface_name, {"description": interface_description})
-        else:
-            config_db.mod_entry("PORTCHANNEL", interface_name, {"admin_status": interface_description})
 
 #
 # 'startup' subcommand
