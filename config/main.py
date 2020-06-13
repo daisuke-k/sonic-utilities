@@ -1862,6 +1862,39 @@ def interface(ctx):
     ctx.obj['config_db'] = config_db
 
 #
+# 'description' subcommand
+#
+
+@interface.command()
+@click.argument('interface_name', metavar='<interface_name>', required=True)
+@click.argument('interface_description', metavar='<interface_description>', required=True)
+@click.pass_context
+def description(ctx, interface_name, interface_description):
+    """Set interface description"""
+
+    config_db = ctx.obj['config_db']
+    if get_interface_naming_mode() == "alias":
+        interface_name = interface_alias_to_name(interface_name)
+        if interface_name is None:
+            ctx.fail("'interface_name' is None!")
+
+    if interface_name_is_valid(interface_name) is False:
+        ctx.fail("Interface name is invalid. Please enter a valid interface name!!")
+
+    log_info("'interface description {} {}' executing...".format(interface_name, interface_description))
+
+    if interface_name.startswith("Ethernet"):
+        if VLAN_SUB_INTERFACE_SEPARATOR in interface_name:
+            config_db.mod_entry("VLAN_SUB_INTERFACE", interface_name, {"description": interface_description})
+        else:
+            config_db.mod_entry("PORT", interface_name, {"description": interface_description})
+    elif interface_name.startswith("PortChannel"):
+        if VLAN_SUB_INTERFACE_SEPARATOR in interface_name:
+            config_db.mod_entry("VLAN_SUB_INTERFACE", interface_name, {"description": interface_description})
+        else:
+            config_db.mod_entry("PORTCHANNEL", interface_name, {"admin_status": interface_description})
+
+#
 # 'startup' subcommand
 #
 
